@@ -1,0 +1,17 @@
+.volumes {
+	height: 300px;
+	transform: rotate(180deg);
+}
+
+.average {
+	float: right;
+	width: 10px;
+	background: red;
+}
+
+.fr {
+	float: right;
+	width: 1px;
+	margin-left: 1px;
+	background: red;
+}
