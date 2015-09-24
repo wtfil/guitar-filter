@@ -10,7 +10,7 @@ var analyser = context.createAnalyser();
 analyser.smoothingTimeConstant = 0.3;
 analyser.fftSize = 1024;
 
-var processor = context.createScriptProcessor(2048, 1, 1);
+var processor = context.createScriptProcessor();
 
 var hightFilter = context.createBiquadFilter();
 var lowFilter = context.createBiquadFilter();

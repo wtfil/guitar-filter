@@ -1,25 +1,30 @@
 var React = require('react');
 var audio = require('./audio');
+var getNote = require('./getNote');
 
 var App = React.createClass({
 	getInitialState() {
 		return {
 			volume: 0,
 			all: [],
+			tone: 0,
 			from: 0,
 			to: 41200
 		};
 	},
 	componentWillMount() {
 		audio.on('process', arr => {
+			const tone = getTone(arr);
 			this.setState({
 				volume: getAverageVolume(arr),
+				tone,
+				note: getNote(tone).name,
 				all: arr
 			});
 		});
 	},
 	play() {
-		audio.load('/test1.mp3', function (err, buffer) {
+		audio.load('/test2.mp3', function (err, buffer) {
 			audio.play(buffer);
 		});
 	},
@@ -50,19 +55,30 @@ var App = React.createClass({
 				<div className="average" style={{height: this.state.volume + 'px'}}></div>
 				<div>{fr}</div>
 			</div>
+			<div>{this.state.note} {this.state.tone}</div>
 		</div>;
 	}
 });
 
+function getTone(arr) {
+    var values = 0;
+    var max = 0;
+    var length = arr.length;
+    for (var i = 0; i < length; i++) {
+    	if (arr[i] > arr[max]) {
+    		max = i;
+    	}
+    }
+    return max / length * 41200; //hardcoded
+}
+
 function getAverageVolume(arr) {
     var values = 0;
-    var average;
     var length = arr.length;
     for (var i = 0; i < length; i++) {
         values += arr[i];
     }
-    average = values / length;
-    return average;
+    return values / length;
 }
 
 React.render(<App/>, document.body);
